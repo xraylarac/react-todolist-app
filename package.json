@@ -1,0 +1,11 @@
+{
+  "name": "moovin-challenge-node",
+  "version": "0.0.0",
+  "description": "Moovin Challenge Node.js",
+  "scripts": {},
+  "keywords": [
+    "Moovin",
+    "Node.js"
+  ],
+  "author": "Leonardo Campello"
+}

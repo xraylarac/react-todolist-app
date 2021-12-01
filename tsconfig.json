@@ -8,9 +8,9 @@
     "noImplicitThis": true,
     "noImplicitReturns": true,
     "sourceMap": true,
-    "rootDirs": ["src"],
     "baseUrl": "src",
-    "@/*": ["*"],
-    "include": ["src"]
+    "paths": {
+      "@/*": ["*"]
+    }
   }
 }

@@ -1,5 +1,12 @@
-import * as faunaDB from 'faunadb'
+import * as faunaDB from 'faunadb';
+import * as dotenv from 'dotenv';
 
-export const client = new faunaDB.Client({
-  secret: process.env.FAUNA_SECRET_KEY
-})
+dotenv.config();
+
+const client = new faunaDB.Client({
+  secret: process.env.FAUNADB_SECRET_KEY,
+  domain: 'db.us.fauna.com',
+  scheme: 'https'
+});
+
+export { client as faunaClient };

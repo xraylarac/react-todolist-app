@@ -1,13 +1,8 @@
-export {};
-
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import * as dotenv from 'dotenv';
 
 import { router } from './routes';
-
-dotenv.config();
 
 const application = express();
 

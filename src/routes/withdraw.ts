@@ -38,8 +38,8 @@ router.put('/:id', async (request: Request, response: Response) => {
     const { body, params } = request;
     const { id } = params;
 
-    if (id || body.deposit) {
-      const { deposit } = body;
+    if (id || body.withdraw) {
+      let { withdraw } = body;
 
       const account: QueryResponse = await faunaClient.query(Get(Ref(Collection(collection), id)));
 
@@ -47,27 +47,41 @@ router.put('/:id', async (request: Request, response: Response) => {
         return new InstanceNotFoundError();
       }
 
-      const { balance: currentBalance, deposits, deleted } = account.data as CyberAccount;
+      const {
+        balance: currentBalance,
+        withdrawals,
+        deleted,
+        accountType
+      } = account.data as CyberAccount;
 
       if (deleted) {
         return new InstanceNotFoundError();
       }
 
-      let data = { balance: deposit + currentBalance, deposits: [] };
+      const withdrawalFee = accountType === 'checking-account' ? 0.3 : 0.6;
+      withdraw += withdrawalFee;
 
-      if (!deposits) {
-        data = { ...data, deposits: new Array([deposit, Date.now()]) };
+      if (withdraw > currentBalance) {
+        return response
+          .status(400)
+          .json({ status: 400, message: 'Saldo insuficiente para efetuar saque.' });
+      }
+
+      let data = { balance: currentBalance - withdraw, withdrawals: [] };
+
+      if (!withdrawals) {
+        data = { ...data, withdrawals: new Array([withdraw, Date.now()]) };
       } else {
-        deposits.push([deposit, Date.now()]);
+        withdrawals.push([withdraw, Date.now()]);
 
-        data = { ...data, deposits };
+        data = { ...data, withdrawals };
       }
 
       const payload: QueryResponse = await faunaClient.query(
         Update(Ref(Collection(collection), id), { data: { ...data } })
       );
 
-      const result = makeSuccessResponse('Depósito efetuado!', payload.data);
+      const result = makeSuccessResponse('Saque efetuado!', payload.data);
 
       return response.status(200).json(result);
     } else {
@@ -80,4 +94,4 @@ router.put('/:id', async (request: Request, response: Response) => {
   }
 });
 
-export { router as deposit };
+export { router as withdraw };

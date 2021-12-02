@@ -3,42 +3,18 @@ import { Router, Request, Response } from 'express';
 import { uuid } from 'uuidv4';
 import { Create, Update, query } from 'faunadb';
 
-import { faunaClient } from '../services/fauna-client';
+import { QueryResponse } from '../services/fauna/fauna-query-response';
+import { faunaClient } from '../services/fauna/fauna-client';
+import { makeSuccessResponse, validateAccount } from '../services/helpers';
 
 import { FaunaErrorHandler } from '../errors/fauna-error-handler';
 import { InvalidDataError } from '../errors';
-
-import { SuccessResponse } from '../data/protocols/http/http-response';
-
-import { CyberAccount } from '../usecases/create-account/create-account-dto';
 
 const { Get, Ref, Collection } = query;
 
 const router = Router();
 
 const faunaErrorHandler = new FaunaErrorHandler();
-
-interface QueryResponse {
-  account: object;
-  ts: number;
-  data: object;
-}
-
-function makeSuccessResponse(message: string, payload: object): SuccessResponse {
-  return {
-    status: 200,
-    message,
-    payload
-  };
-}
-
-function validateAccount(body: CyberAccount): boolean {
-  if (body.cyberEmail && body.name && body.accountType) {
-    return true;
-  } else {
-    return false;
-  }
-}
 
 /* Nome da collection no FaunaDB - Não deletar */
 const collection = 'cyberAccounts';

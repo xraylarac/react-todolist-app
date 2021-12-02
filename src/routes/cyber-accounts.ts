@@ -40,13 +40,14 @@ function validateAccount(body: CyberAccount): boolean {
   }
 }
 
+/* Nome da collection no FaunaDB - Não deletar */
+const collection = 'cyberAccounts';
+
 router.get('/:id', async (request: Request, response: Response) => {
   try {
     const { id } = request.params;
 
-    const payload: QueryResponse = await faunaClient.query(
-      Get(Ref(Collection('cyberAccounts'), id))
-    );
+    const payload: QueryResponse = await faunaClient.query(Get(Ref(Collection(collection), id)));
 
     const result = makeSuccessResponse('Usuário encontrado!', payload.data);
 
@@ -68,7 +69,7 @@ router.post('/', async (request: Request, response: Response) => {
       const data = { ...body, cyberId: uuid(), createdAt: Date.now(), balance: 0 };
 
       const payload: QueryResponse = await faunaClient.query(
-        Create(Collection('cyberAccounts'), { data: { ...data } })
+        Create(Collection(collection), { data: { ...data } })
       );
 
       const result = makeSuccessResponse('Usuário criado!', payload.data);
@@ -93,10 +94,34 @@ router.put('/:id', async (request: Request, response: Response) => {
       const data = { ...body, updatedAt: Date.now() };
 
       const payload: QueryResponse = await faunaClient.query(
-        Update(Ref(Collection('cyberAccounts'), id), { data: { ...data } })
+        Update(Ref(Collection(collection), id), { data: { ...data } })
       );
 
       const result = makeSuccessResponse('Usuário atualizado!', payload.data);
+
+      return response.status(200).json(result);
+    } else {
+      throw new InvalidDataError();
+    }
+  } catch (error) {
+    const faunaError = faunaErrorHandler.handle(error);
+
+    return response.status(faunaError.status).json(faunaError);
+  }
+});
+
+router.put('/delete/:id', async (request: Request, response: Response) => {
+  try {
+    const { id } = request.params;
+
+    if (id) {
+      const data = { deleted: true, deletedAt: Date.now() };
+
+      const payload: QueryResponse = await faunaClient.query(
+        Update(Ref(Collection(collection), id), { data: { ...data } })
+      );
+
+      const result = makeSuccessResponse('Usuário deletado!', payload.data);
 
       return response.status(200).json(result);
     } else {

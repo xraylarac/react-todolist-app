@@ -76,7 +76,7 @@ router.post('/', async (request: Request, response: Response) => {
 
       return response.status(200).json(result);
     } else {
-      throw new InvalidDataError();
+      return new InvalidDataError();
     }
   } catch (error) {
     const faunaError = faunaErrorHandler.handle(error);
@@ -101,7 +101,7 @@ router.put('/:id', async (request: Request, response: Response) => {
 
       return response.status(200).json(result);
     } else {
-      throw new InvalidDataError();
+      return new InvalidDataError();
     }
   } catch (error) {
     const faunaError = faunaErrorHandler.handle(error);
@@ -125,7 +125,7 @@ router.put('/delete/:id', async (request: Request, response: Response) => {
 
       return response.status(200).json(result);
     } else {
-      throw new InvalidDataError();
+      return new InvalidDataError();
     }
   } catch (error) {
     const faunaError = faunaErrorHandler.handle(error);

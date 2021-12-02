@@ -4,3 +4,4 @@ export * from './instance-not-unique';
 export * from './permission-denied';
 export * from './unauthorized';
 export * from './server-error';
+export * from './invalid-data';

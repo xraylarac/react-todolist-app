@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 
 import { uuid } from 'uuidv4';
-import { Create, query } from 'faunadb';
+import { Create, Update, query } from 'faunadb';
 
 import { faunaClient } from '../services/fauna-client';
 
@@ -72,6 +72,31 @@ router.post('/', async (request: Request, response: Response) => {
       );
 
       const result = makeSuccessResponse('Usuário criado!', payload.data);
+
+      return response.status(200).json(result);
+    } else {
+      throw new InvalidDataError();
+    }
+  } catch (error) {
+    const faunaError = faunaErrorHandler.handle(error);
+
+    return response.status(faunaError.status).json(faunaError);
+  }
+});
+
+router.put('/:id', async (request: Request, response: Response) => {
+  try {
+    const { body, params } = request;
+    const { id } = params;
+
+    if (body) {
+      const data = { ...body, updatedAt: Date.now() };
+
+      const payload: QueryResponse = await faunaClient.query(
+        Update(Ref(Collection('cyberAccounts'), id), { data: { ...data } })
+      );
+
+      const result = makeSuccessResponse('Usuário atualizado!', payload.data);
 
       return response.status(200).json(result);
     } else {

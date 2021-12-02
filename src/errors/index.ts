@@ -5,3 +5,4 @@ export * from './permission-denied';
 export * from './unauthorized';
 export * from './server-error';
 export * from './invalid-data';
+export * from './insufficient-balance';

@@ -14,15 +14,19 @@
 
 ## 🛣️ Rotas
 
+- rota base: `http://localhost:5000/`
+- id's para testar rotas: `316824203878727746` e `316824203878727746`
+
 **GET** ➡️ `/cyber-accounts/:id`
 
 ### _Resposta:_
 
 ```js
 /*
-As datas estão milisegundos
+As datas estão em milisegundos
 
-Os itens deposits e withdrawals são compostos por tuplas, onde o primeiro item da tupla é o valor do depósito e o segundo item é a data do depósito
+Os itens deposits e withdrawals são compostos por tuplas, onde o primeiro item da tupla é o valor do depósito 
+e o segundo item é a data do depósito
 */
 
 {
@@ -98,7 +102,8 @@ Essa rota é um soft delete, ela apenas seta duas propriedades no banco, elas s�
 
 ```js
 /*
-Essa rota soma o depósito com o saldo atual da cyberAccount e além disso registra o valor e data do depósito em um array deposits
+Essa rota soma o depósito com o saldo atual da cyberAccount e além disso 
+registra o valor e data do depósito em um array deposits
 */
 
 {
@@ -110,7 +115,9 @@ Essa rota soma o depósito com o saldo atual da cyberAccount e além disso regis
 
 ```js
 /*
-Essa rota subtrai o valor do saque e da taxa de saque do saldo atual da cyberAccount, mas apenas se esses valores forem menores que o saldo. O valor e data do saque ficam registrados em um array withdrawals
+Essa rota subtrai o valor do saque e da taxa de saque do saldo atual da cyberAccount, 
+mas apenas se esses valores forem menores que o saldo. 
+O valor e data do saque ficam registrados em um array withdrawals
 */
 
 {

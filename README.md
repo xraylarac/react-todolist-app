@@ -1,37 +1,35 @@
-<h2 align="center">Desafio Node.js</h2>
+## 🧰 Setup to run the project
 
-## 🧰 Setup para rodar o projeto
+- Create a file named **.env** and paste the following content: `FAUNADB_SECRET_KEY=fnAEZUdQWoAAREiKyFJZK1_f4W3_pavPIu9FAQAY`
+- Install dependencies: run `npm install` in terminal
+- Run project: run `npm run dev` in terminal
 
-- Criar um arquivo com o nome **.env** e colar o seguinte conteúdo: `FAUNADB_SECRET_KEY=fnAEZUdQWoAAREiKyFJZK1_f4W3_pavPIu9FAQAY`
-- Instalar as dependências: rodar `npm install` no terminal
-- Rodar o projeto: rodar `npm run dev` no terminal
-
-## 💻 Stack utilizada
+## 💻 Stack used
 
 - [Node.js](https://nodejs.org/en/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Fauna (DB)](https://fauna.com/)
 
-## 🛣️ Rotas
+## 🛣️ Routes
 
-- rota base: `http://localhost:5000/`
-- id's para testar rotas: `316824203878727746` e `316824203878727746`
+- base route: `http://localhost:5000/`
+- id's for testing routes: `316824203878727746` and `316824203878727746`
 
 **GET** ➡️ `/cyber-accounts/:id`
 
-### _Resposta:_
+### _Reply:_
 
 ```js
 /*
-As datas estão em milisegundos
+Dates are in milliseconds
 
-Os itens deposits e withdrawals são compostos por tuplas, onde o primeiro item da tupla é o valor do depósito 
-e o segundo item é a data do depósito
+The deposits and withdrawals items are composed of tuples, where the first item of the tuple is the deposit amount.
+and the second item is the filing date
 */
 
 {
   "status": 200,
-  "message": "Usuário encontrado!",
+  "message": "User found!",
   "payload": {
     "cyberEmail": "test@cyber.com.en",
     "name": "Crud - Fauna 2",
@@ -62,7 +60,7 @@ e o segundo item é a data do depósito
 
 **POST** ➡️ `/cyber-accounts/`
 
-### _Body esperado:_
+### _Expected Body:_
 
 ```js
 {
@@ -74,27 +72,27 @@ e o segundo item é a data do depósito
 
 **PUT** ➡️ `/cyber-accounts/:id`
 
-### _Body esperado:_
+### _Expected Body:_
 
 ```js
 /*
-Todos esses itens são editáveis na collection
+All these items are editable in the collection
 */
 
 {
   "cyberEmail": "updated@cyber.com.en",
   "name": "Put - test",
-  "accountType": "cheking-account"
+  "accountType": "checking-account"
 }
 ```
 
 **PUT** ➡️ `/delete/:id/cyber-accounts/`
 
 ```js
-/* 
-Essa rota é um soft delete, ela apenas seta duas propriedades no banco, elas são:
+/*
+This route is a soft delete, it just sets two properties in the database, they are:
   - deleted: true
-  - deletedAt: Date.now() - data atual
+  - deletedAt: Date.now() - current date
 */
 ```
 
@@ -102,12 +100,12 @@ Essa rota é um soft delete, ela apenas seta duas propriedades no banco, elas s�
 
 ```js
 /*
-Essa rota soma o depósito com o saldo atual da cyberAccount e além disso 
-registra o valor e data do depósito em um array deposits
+This route adds the deposit to the current cyberAccount balance and in addition
+records the deposit amount and date in a deposits array
 */
 
 {
-	"deposit": 1000
+"deposit": 1000
 }
 ```
 
@@ -115,12 +113,12 @@ registra o valor e data do depósito em um array deposits
 
 ```js
 /*
-Essa rota subtrai o valor do saque e da taxa de saque do saldo atual da cyberAccount, 
-mas apenas se esses valores forem menores que o saldo. 
-O valor e data do saque ficam registrados em um array withdrawals
+This route subtracts the withdrawal amount and withdrawal fee from the current cyberAccount balance,
+but only if these amounts are less than the balance.
+The amount and date of withdrawal are recorded in an array withdrawals
 */
 
 {
-	"withdraw": 300
+"withdraw": 300
 }
 ```
